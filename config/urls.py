@@ -1,34 +1,30 @@
-# file path: config/urls.py
 from django.contrib import admin
 from django.urls import include, path
-from django.views.generic import TemplateView
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
-    path("", TemplateView.as_view(template_name="accounts/login.html"), name="home"),
-    path("login/", TemplateView.as_view(template_name="accounts/login.html"), name="login"),
-    path("register/", TemplateView.as_view(template_name="accounts/register.html"), name="register"),
-    path("profile/settings/", TemplateView.as_view(template_name="accounts/profile_settings.html"), name="profile-settings"),
-    path("dashboard/seeker/", TemplateView.as_view(template_name="dashboard/seeker.html"), name="seeker-dashboard"),
-    path("dashboard/recruiter/", TemplateView.as_view(template_name="dashboard/recruiter.html"), name="recruiter-dashboard"),
-    path("dashboard/admin/", TemplateView.as_view(template_name="dashboard/admin.html"), name="admin-dashboard"),
-    path("jobs/", TemplateView.as_view(template_name="jobs.html"), name="jobs"),
-    path("job-recommendation/", TemplateView.as_view(template_name="recommendations.html"), name="job-recommendation"),
-    path("ai-match/", TemplateView.as_view(template_name="recommendations.html"), name="ai-match"),
-    path("skillgap/", TemplateView.as_view(template_name="skillgap.html"), name="skillgap"),
-    path("notifications/", TemplateView.as_view(template_name="notifications.html"), name="notifications"),
-    path("chat/", TemplateView.as_view(template_name="chat.html"), name="chat"),
-    path("quiz/", TemplateView.as_view(template_name="quiz.html"), name="quiz"),
-    path("linkedin/", TemplateView.as_view(template_name="linkedin.html"), name="linkedin"),
-    path("api/auth/", include("apps.accounts.urls")),
-    path("api/jobs/", include("apps.jobs.urls")),
-    path("api/skillgap/", include("apps.skillgap.urls")),
-    path("api/recruiter/", include("apps.recruiters.urls")),
-    path("api/admin/", include("apps.admin_panel.urls")),
-    path("api/chatbot/", include("apps.chatbot.urls")),
-    path("api/quiz/", include("apps.quiz.urls")),
-    path("api/external/", include("apps.external.urls")),
-    path("api/notifications/", include("apps.notifications.urls")),
+    
+    # ==================== FRONTEND ROUTES ====================
+    path("", include("apps.accounts.urls")),
+    path("dashboard/", include("apps.dashboard.urls")),
+    path("jobs/", include("apps.jobs.urls")),
+    path("skillgap/", include("apps.skillgap.urls")),
+    path("recommendations/", include("apps.recommendations.urls")),
+    path("notifications/", include("apps.notifications.urls")),
+    path("chat/", include("apps.chatbot.urls")),
+    path("quiz/", include("apps.quiz.urls")),
+    path("external/", include("apps.external.urls")),
+    
+    # ==================== API ROUTES ====================
+    path("api/auth/", include(("apps.accounts.urls", "accounts"), namespace="api-accounts")),
+    path("api/jobs/", include(("apps.jobs.urls", "jobs"), namespace="api-jobs")),
+    path("api/skillgap/", include(("apps.skillgap.urls", "skillgap"), namespace="api-skillgap")),
+    path("api/recruiter/", include(("apps.recruiters.urls", "recruiters"), namespace="api-recruiters")),
+    path("api/admin/", include(("apps.admin_panel.urls", "admin_panel"), namespace="api-admin")),
+    path("api/chatbot/", include(("apps.chatbot.urls", "chatbot"), namespace="api-chatbot")),
+    path("api/quiz/", include(("apps.quiz.urls", "quiz"), namespace="api-quiz")),
+    path("api/external/", include(("apps.external.urls", "external"), namespace="api-external")),
+    path("api/notifications/", include(("apps.notifications.urls", "notifications"), namespace="api-notifications")),
 ]
 
 admin.site.site_header = "SkillSync AI Admin"
